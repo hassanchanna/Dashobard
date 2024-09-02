@@ -32,7 +32,7 @@
               for($i=1;$i<=10;$i++){
                 if($i%2==0){
                     ?>
-                     <tr class="table-secondary">
+                     <tr class="table-primary">
                     <td scope="row">2</td>
                     <td>X</td>
                     <td><?php echo $i?></td>
@@ -45,7 +45,7 @@
                 }else{
                     ?>
                     
-                    <tr class="table-success">
+                    <tr class="table-warning">
                     <td scope="row">2</td>
                     <td>X</td>
                     <td><?php echo $i?></td>
