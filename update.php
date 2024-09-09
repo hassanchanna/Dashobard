@@ -20,12 +20,21 @@ include("connection.php");
             crossorigin="anonymous"
         />
     </head>
+<?php
+if(isset($_GET['id'])){
+    $id = $_GET['id'];
+    $query = $pdo->prepare("select * from userdetails where id = :pid");
+    $query->bindParam('pid', $id);
+    $query->execute();
+    $row = $query->fetch(PDO::FETCH_ASSOC);
 
+}
+?>
     <body>
         <div class="container">
             <h1>user detail</h1>
             <form action="" method="post">
-
+<input type="hidden" name="id" value="<?php echo $row['id'] ?>">
             <div class="mb-3">
                 <label for="" class="form-label">Name</label>
                 <input
@@ -35,6 +44,7 @@ include("connection.php");
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                    value="<?php echo $row['name']?>"
                 />
            
             </div>
@@ -47,43 +57,16 @@ include("connection.php");
                     class="form-control"
                     placeholder=""
                     aria-describedby="helpId"
+                          value="<?php echo $row['email']?>"
                 />
     
             </div>
-            <div class="form-check">
-                <label for="">gender</label>
-                <input class="form-check-input" type="radio" name="gender" id="" value="male" />
-                <label class="form-check-label" for=""> male</label>
-            </div>
-            <div class="form-check">
-                <input
-                    class="form-check-input"
-                    type="radio"
-                    name="gender"
-                    id=""
-                   value="female"
-                />
-                <label class="form-check-label" for="">
-                 female
-                </label>
-            </div>
-            
-            <div class="mb-3">
-                <label for="" class="form-label">Password</label>
-                <input
-                    type="text"
-                    name="password"
-                    id=""
-                    class="form-control"
-                    placeholder="dskjfhkjsdhg"
-                    aria-describedby="helpId"
-                />
-      
-            </div>
+         
+       
             <button
                 type="submit"
                 class="btn btn-primary"
-                name="userDetail"
+                name="update"
             >
                 submit
             </button>
@@ -91,19 +74,21 @@ include("connection.php");
             </form>
         </div>
         <?php
-        if(isset($_POST['userDetail'])){
+        if(isset($_POST['update'])){
+            $id = $_POST['id'];
       $name= $_POST['uname'];
       $email = $_POST['email'];
-      $password = $_POST['password'];
-      $gender = $_POST['gender'];
+     
 
-      $query = $pdo->prepare("insert into userdetails(name,email,password,gender)values(:pn,:pe,:pp,:pg)");
+      $query = $pdo->prepare("update userdetails set name = :pn , email = :pe where id = :pid");
+      $query->bindParam('pid', $id);
       $query->bindParam('pn',$name);
       $query->bindParam('pe',$email);
-      $query->bindParam('pp',$password);
-      $query->bindParam('pg',$gender);
+  
       $query->execute();
-      echo "<script>alert('data insert')</script>";
+      echo "<script>alert('data update');
+      location.assign('view.php')
+      </script>";
         }
         ?>
     </body>

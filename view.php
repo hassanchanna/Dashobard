@@ -51,11 +51,19 @@ foreach($row as $values){
                             <td scope="row"><?php echo $values['id']?></td>
                             <td><?php echo $values['name']?></td>
                             <td><?php echo $values['email']?></td>
-                            <td><a href="" class="btn btn-outline-success">Edit</a></td>
-                            <td><a href="" class="btn btn-outline-danger">Delete</a></td>
+                            <td><a href="update.php?id=<?php echo $values['id']?>" class="btn btn-outline-success">Edit</a></td>
+                            <td><a href="?did=<?php echo $values['id']?>" class="btn btn-outline-danger">Delete</a></td>
 
                         </tr>
     <?php
+}
+if(isset($_GET['did'])){
+    $id = $_GET['did'];
+    $query = $pdo->prepare("delete from userdetails where id=:pid");
+    $query->bindParam(':pid',$id);
+    $query->execute();
+    echo "<script>alert('data delete');
+    location.assign('view.php')</script>";
 }
  ?>
                        
