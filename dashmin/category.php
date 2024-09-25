@@ -16,38 +16,97 @@ include("components/header.php");
                         <table class="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">First Name</th>
-                                        <th scope="col">Last Name</th>
-                                        <th scope="col">Email</th>
+                                        <th scope="col">Category Id</th>
+                                        <th scope="col">Category Name</th>
+                                        <th scope="col">Category Image</th>
+                                        <th scope="col" colspan="2">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
+                                    <?php
+                                    $query = $pdo ->query("select * from categories");
+                                    $row = $query->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach($row as $catRows){
+                                        ?>
+                                          <tr>
+                                        <th scope="row"><?php echo $catRows['catId']?></th>
+                                        <td><?php echo $catRows['catName']?></td>
+                                        <td><img src="<?php echo $catImageAddress.$catRows['catImage']?>" width="80" alt=""></td>
+                                        <td><a href="#mod<?php echo $catRows['catId']?>" data-bs-toggle="modal"><i class="fas fa-edit" style="color: #74C0FC;"></i></a></td>
+                                        <td><a href="#delete<?php echo $catRows['catId']?>" data-bs-toggle="modal"><i class="fas fa-trash" style="color: red;"></i></a></td>
                                     </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>mark@email.com</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>jacob@email.com</td>
-                                    </tr>
+                                        
+
+<!--update Modal -->
+<div class="modal fade" id="mod<?php echo $catRows['catId']?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Update Categories</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form method="post" enctype="multipart/form-data">
+        <input type="hidden" name="cId" id="" value="<?php echo $catRows['catId']?>">
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">Category Name</label>
+                                    <input type="text" class="form-control" name="cName" value="<?php echo $catRows['catName']?>">
+                                  
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Category Image</label>
+                                    <input type="file" class="form-control" id="exampleInputPassword1" name="cImage">
+                                    <img src="<?php echo $catImageAddress.$catRows['catImage']?>" width="80" alt="">
+                                </div>
+                               
+                                <button type="submit" name="updateCategory" class="btn btn-primary">Update Category</button>
+                            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- delete Modal -->
+<div class="modal fade" id="delete<?php echo $catRows['catId']?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Add Categories</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form method="post">
+      <input type="hidden" name="cId" id="" value="<?php echo $catRows['catId']?>">
+                              
+                               
+                                <button type="submit" name="deleteCategory" class="btn btn-primary">Delete Category</button>
+                            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancel</button>
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+                                        <?php
+                                    }
+                                    ?>
+                                  
+                               
                                 </tbody>
                             </table>
                     </div>
                 </div>
             </div>
             <!-- Blank End -->
-<!-- Modal -->
+<!-- add Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
