@@ -1,3 +1,6 @@
+<?php
+include("model/query.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
