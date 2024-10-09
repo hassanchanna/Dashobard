@@ -1,5 +1,10 @@
 <?php
 include('php/query.php');
+if($_SESSION['userRole']!="admin"){
+    echo "<script>
+    location.assign('../index.php');
+    </script>";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,10 +74,12 @@ include('php/query.php');
                             <a href="category.php" class="dropdown-item">Categories</a>
                             <a href="product.php" class="dropdown-item">products</a>
                             <a href="element.html" class="dropdown-item">Other Elements</a>
+                            
                         </div>
                     </div>
                     <a href="widget.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>
                     <a href="form.html" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Forms</a>
+                    <a href="../index.php" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>website</a>
                     <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
                     <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
                     <div class="nav-item dropdown">

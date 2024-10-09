@@ -110,6 +110,30 @@ include("model/query.php");
 							<li>
 								<a href="register.php">Register</a>
 							</li>
+							<?php
+							if(isset($_SESSION['userName'])){
+								?>
+								<li>
+								<a href="logout.php">LogOut</a>
+							</li>
+								<?php
+								if($_SESSION['userRole']=="user"){
+									?>
+									
+									<li>
+								<a href="profile.php">Profile</a>
+							</li>
+									<?php
+								}
+							}else{
+								?>
+								<li>
+								<a href="login.php">Login</a>
+							</li>
+								<?php
+							}
+							?>
+							
 						</ul>
 					</div>	
 

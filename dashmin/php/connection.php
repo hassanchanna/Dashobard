@@ -1,4 +1,5 @@
 <?php
+session_start();
 $server = "mysql:host=localhost;dbname=9b";
 $username = "root";
 $password = "";
