@@ -1,5 +1,8 @@
 <?php
 include("dashmin/php/connection.php");
+$catImageAddress = 'dashmin/img/categories/';
+$proImageAddress = 'dashmin/img/products/';
+
 if(isset($_POST['registration'])){
     $name = $_POST['uname'];
     $email = $_POST['uemail'];

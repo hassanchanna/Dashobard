@@ -107,9 +107,7 @@ include("model/query.php");
 								<a href="contact.html">Contact</a>
 							</li>
 							
-							<li>
-								<a href="register.php">Register</a>
-							</li>
+							
 							<?php
 							if(isset($_SESSION['userName'])){
 								?>
@@ -124,9 +122,19 @@ include("model/query.php");
 								<a href="profile.php">Profile</a>
 							</li>
 									<?php
+								}else{
+									?>
+									
+									<li>
+								<a href="dashmin/index.php">panel</a>
+							</li>
+									<?php
 								}
 							}else{
 								?>
+								<li>
+								<a href="register.php">Register</a>
+							</li>
 								<li>
 								<a href="login.php">Login</a>
 							</li>
