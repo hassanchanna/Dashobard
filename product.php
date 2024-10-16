@@ -18,7 +18,8 @@ $catQuery = $pdo ->query("select * from categories");
 $rowCat = $catQuery ->fetchAll(PDO::FETCH_ASSOC);
 foreach($rowCat as $catVal){
 	?>
-	<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".<?php echo $catVal['catId']?>">
+	<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".
+	d']?>">
 						<?php echo $catVal['catName']?>
 					</button>
 
@@ -274,7 +275,7 @@ foreach($rowCat as $catVal){
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.php?proId=<?php echo $value['productId']?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									<?php
 									echo $value['productName']
 									?>
@@ -322,7 +323,7 @@ foreach($rowCat as $catVal){
 
 						<div class="block2-txt flex-w flex-t p-t-14">
 							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+								<a href="product-detail.php?proId=<?php echo $value['productId']?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 									<?php
 									echo $value['productName']
 									?>
