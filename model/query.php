@@ -65,4 +65,18 @@ location.assign('dashmin/index.php');
 
     }
 }
+if(isset($_POST['addToCart'])){
+    $pId = $_POST['pId'];
+    $pName = $_POST['pName'];
+    $pPrice = $_POST['pPrice'];
+    $pQuantity = $_POST['pQuantity'];
+    $pImage = $_POST['pImage'];
+
+    if(isset($_SESSION['cart'])){
+        echo "<script>alert('already exist')</script>";
+    }else{
+        $_SESSION['cart'][0]=array("proId"=>$pId,"proName"=>$pName,"proPrice"=>$pPrice,"proQuantity",$pQuantity,"proImage"=>$pImage);
+        echo "<script>alert('product add into cart')</script>";
+    }
+}
 ?>
