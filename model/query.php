@@ -1,5 +1,6 @@
 <?php
 include("dashmin/php/connection.php");
+
 $catImageAddress = 'dashmin/img/categories/';
 $proImageAddress = 'dashmin/img/products/';
 
@@ -65,6 +66,7 @@ location.assign('dashmin/index.php');
 
     }
 }
+// session_unset();
 if(isset($_POST['addToCart'])){
     $pId = $_POST['pId'];
     $pName = $_POST['pName'];
@@ -73,9 +75,22 @@ if(isset($_POST['addToCart'])){
     $pImage = $_POST['pImage'];
 
     if(isset($_SESSION['cart'])){
-        echo "<script>alert('already exist')</script>";
+        $cartQuantity = false;
+        foreach($_SESSION['cart'] as $key => $values){
+            if($values['proId']==$pId){
+                $cartQuantity=true;
+                      unset($_SESSION['cart'][$key][$values['proQuantity']]);
+                $values['proQuantity'] = $values['proQuantity']+$pQuantity;
+          
+                print_r( $values['proQuantity']);
+                // die();
+                // echo "<script>location.assign('shoping-cart.php')</script>";
+               
+            }
+
+        }
     }else{
-        $_SESSION['cart'][0]=array("proId"=>$pId,"proName"=>$pName,"proPrice"=>$pPrice,"proQuantity",$pQuantity,"proImage"=>$pImage);
+        $_SESSION['cart'][0]=array("proId"=>$pId,"proName"=>$pName,"proPrice"=>$pPrice,"proQuantity"=>$pQuantity,"proImage"=>$pImage);
         echo "<script>alert('product add into cart')</script>";
     }
 }
