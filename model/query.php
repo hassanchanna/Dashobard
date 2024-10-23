@@ -95,4 +95,17 @@ if(isset($_POST['addToCart'])){
         echo "<script>alert('product add into cart')</script>";
     }
 }
+// remove cart
+if(isset($_POST['cartRemove'])){
+    $cartId = $_POST['cartId'];
+    foreach($_SESSION['cart'] as $keys => $values){
+        if($values['proId']==$cartId){
+            unset($_SESSION['cart'][$keys]);
+            $_SESSION['cart']=array_values($_SESSION['cart']);
+            echo "<script>alert('cart remove');
+            
+            </script>";
+        }
+    }
+}
 ?>

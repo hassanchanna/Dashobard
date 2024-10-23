@@ -18,7 +18,7 @@ include("components/header.php");
 		
 
 	<!-- Shoping Cart -->
-	<form class="bg0 p-t-75 p-b-85">
+	<div class="bg0 p-t-75 p-b-85">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
@@ -32,6 +32,8 @@ include("components/header.php");
 									<th class="column-3">Price</th>
 									<th class="column-4">Quantity</th>
 									<th class="column-5">Total</th>
+									<th class="column-5">Remove</th>
+
 								</tr>
 
 								<?php
@@ -52,6 +54,13 @@ include("components/header.php");
 										<?php echo $values['proQuantity']?>
 									</td>
 									<td class="column-5">PKR <?php echo $total?></td>
+									<td class="column-5">
+										<form action="" method="post">
+											<input type="hidden" name="cartId" value="<?php echo $values['proId']?>">
+											<button type="submit" name="cartRemove" class="btn btn-danger">remove</button>
+										</form>
+					
+									</td>
 								</tr>
 										<?php
 									}
@@ -164,7 +173,7 @@ include("components/header.php");
 				</div>
 			</div>
 		</div>
-	</form>
+							</div>
 		
 	
 		
