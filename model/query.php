@@ -78,16 +78,17 @@ if(isset($_POST['addToCart'])){
         $cartQuantity = false;
         foreach($_SESSION['cart'] as $key => $values){
             if($values['proId']==$pId){
-                $cartQuantity=true;
-                      unset($_SESSION['cart'][$key][$values['proQuantity']]);
-                $values['proQuantity'] = $values['proQuantity']+$pQuantity;
-          
-                print_r( $values['proQuantity']);
-                // die();
-                // echo "<script>location.assign('shoping-cart.php')</script>";
+            $_SESSION['cart'][$key]['proQuantity']+=$pQuantity;
+            $cartQuantity=true;
+            echo "<script>location.assign('shoping-cart.php')</script>";
                
             }
 
+        }
+        if(!$cartQuantity){
+           $cartCount = count($_SESSION['cart']);
+           $_SESSION['cart'][$cartCount]=array("proId"=>$pId,"proName"=>$pName,"proPrice"=>$pPrice,"proQuantity"=>$pQuantity,"proImage"=>$pImage);
+           echo "<script>alert('product add into cart')</script>";
         }
     }else{
         $_SESSION['cart'][0]=array("proId"=>$pId,"proName"=>$pName,"proPrice"=>$pPrice,"proQuantity"=>$pQuantity,"proImage"=>$pImage);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 04, 2024 at 07:57 AM
+-- Generation Time: Oct 23, 2024 at 06:52 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -205,7 +205,7 @@ CREATE TABLE `products` (
   `productQuantity` int(11) NOT NULL,
   `productDescription` varchar(100) NOT NULL,
   `productCatId` int(11) NOT NULL,
-  `productImage` varchar(50) NOT NULL
+  `productImage` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -213,7 +213,10 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`productId`, `productName`, `productPrice`, `productQuantity`, `productDescription`, `productCatId`, `productImage`) VALUES
-(3, 'infinfix', 48020, 78, 'sdhgfhgsdjk', 4, 'watch.jpg');
+(3, 'infinfix', 48020, 78, 'sdhgfhgsdjk', 4, 'watch.jpg'),
+(4, 'arabic abaya', 6500, 25, 'new arabic style', 2, '3_09f7b63b-a1ed-48e0-98d5-0dfc563ec870_2_1800x1800.webp'),
+(5, 'frozen food', 4500, 50, 'shgdhj', 3, 'f5.jpg'),
+(6, 'iphone', 250000, 51, 'ERFEWF', 4, 'm4.jpg');
 
 -- --------------------------------------------------------
 
@@ -289,10 +292,20 @@ CREATE TABLE `users` (
   `userId` int(11) NOT NULL,
   `userName` varchar(20) NOT NULL,
   `userEmail` varchar(50) NOT NULL,
-  `userPassword` varchar(20) NOT NULL,
+  `userPassword` varchar(100) NOT NULL,
   `userNumber` varchar(13) NOT NULL,
   `userRole` varchar(20) NOT NULL DEFAULT 'user'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`userId`, `userName`, `userEmail`, `userPassword`, `userNumber`, `userRole`) VALUES
+(1, 'fariha', 'f@gmail.com', '40bd001563085fc35165', '45734658736', 'user'),
+(2, 'kinza', 'k@gmail.com', '40bd001563085fc35165', '476353', 'user'),
+(3, 'Admin', 'admin@gmail.com', 'f865b53623b121fd34ee5426c792e5c33af8c227', '03052563576', 'admin'),
+(4, 'sana', 's@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '3648723642', 'user');
 
 --
 -- Indexes for dumped tables
@@ -326,7 +339,8 @@ ALTER TABLE `pbackup`
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_ibfk_1` (`catID`);
 
 --
 -- Indexes for table `products`
@@ -392,7 +406,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `productId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `productId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `student`
@@ -410,7 +424,7 @@ ALTER TABLE `userdetails`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
