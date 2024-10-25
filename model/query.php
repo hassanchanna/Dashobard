@@ -1,4 +1,15 @@
 <?php
+//Import PHPMailer classes into the global namespace
+//These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+//Load Composer's autoloader
+require 'vendor/autoload.php';
+
+//Create an instance; passing `true` enables exceptions
+$mail = new PHPMailer(true);
 include("dashmin/php/connection.php");
 
 $catImageAddress = 'dashmin/img/categories/';
@@ -106,6 +117,80 @@ if(isset($_POST['cartRemove'])){
             
             </script>";
         }
+    }
+}
+// orderPlace
+if(isset($_POST['orderPlace'])){
+    $id = $_SESSION['userId'];
+    $name = $_POST['name'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
+    $address = $_POST['address'];
+    $itemCount=0;
+    $productQuantities =0;
+    $subTotal = 0;
+    function confirmation(){
+        $randomCode = rand(1,999999);
+        return "#od".$randomCode;
+    }
+    date_default_timezone_set("Asia/Karachi");
+    $currentTime = time();
+    $date = date("Y-m-d H:i:s",$currentTime);
+    $time = date("H:i:s",strtotime($date));
+    $confirmationCode =confirmation();
+    $proNames = [];
+
+    foreach($_SESSION['cart'] as $keys =>$values){
+        $itemCount +=$values['proId'];
+        $proNames[]=$values['proName'];
+        $productQuantities += $values['proQuantity'];
+        $subTotal += $values['proQuantity']*$values['proPrice'];
+        $orderQuery = $pdo ->prepare("INSERT INTO `orders`(`productId`, `productName`, `productPrice`, `productQuantity`, `userId`, `userEmail`, `oDate`, `oTime`, `address`, `productImage`, `userPhone`, `userName`, `confirmation`) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+$orderQuery->execute([$values['proId'],$values["proName"],$values['proPrice'],$values['proQuantity'],$id,$email,$date,$time,$address,$values['proImage'],$phone,$name,$confirmationCode]);
+    }
+    $allname = implode(",",$proNames);
+
+    $invoiceQuery = $pdo ->prepare("INSERT INTO `invoice`(`totalItems`, `productNames`, `userId`, `totalProductsQuanity`, `totalAmount`, `date`, `time`, `confirmationId`) VALUES(?,?,?,?,?,?,?,?)");
+    $invoiceQuery->execute([$itemCount,$allname,$id,$productQuantities,$subTotal,$date,$time,$confirmationCode]);
+    unset($_SESSION['cart']);
+    echo "<script>alert('order placed');
+   location.assign('index.php')
+    </script>";
+
+
+    try {
+        //Server settings
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        $mail->isSMTP();                                            //Send using SMTP
+        $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+        $mail->Username   = 'fareehajabeen62@gmail.com';                     //SMTP username
+        $mail->Password   = 'pmqaqgubxqiixipk';                               //SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+        $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+    
+        //Recipients
+        $mail->setFrom('fareehajabeen62@gmail.com', 'cozaStore');
+        $mail->addAddress($_SESSION['userEmail'], $_SESSION['userName']);     //Add a recipient
+        // $mail->addAddress('ellen@example.com');               //Name is optional
+        // $mail->addReplyTo('info@example.com', 'Information');
+        // $mail->addCC('cc@example.com');
+        // $mail->addBCC('bcc@example.com');
+    
+        //Attachments
+        // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+        // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+    
+        //Content
+        $mail->isHTML(true);                                  //Set email format to HTML
+        $mail->Subject = 'Order Confirmation Code';
+        $mail->Body    = 'Dear '.$_SESSION['userName'].' <b>in bold!</b>';
+        $mail->AltBody = 'this is text email for order confirmation';
+    
+        $mail->send();
+        echo 'Message has been sent';
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 }
 ?>
