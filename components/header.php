@@ -3,43 +3,64 @@ include("model/query.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<title>Home</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="images/icons/favicon.png"/>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.png" />
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/linearicons-v1.0.0/icon-font.min.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-<!--===============================================================================================-->	
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-<!--===============================================================================================-->	
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/slick/slick.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/MagnificPopup/magnific-popup.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
+<script>
+	$(document).ready(function() {
+		$("#search").on("keyup", function() {
+			let search = $(this).val();
+			$.ajax({
+				url: "model/query.php",
+				type: "post",
+data:{
+	"searchProduct":search
+},
+success:function(response){
+	// console.log(response);
+	$("#productData").html(response);
+}
+			})
+		})
+	})
+</script>
+
 <body class="animsition">
-	
+
 	<!-- Header -->
 	<header>
 		<!-- Header desktop -->
@@ -73,8 +94,8 @@ include("model/query.php");
 
 			<div class="wrap-menu-desktop">
 				<nav class="limiter-menu-desktop container">
-					
-					<!-- Logo desktop -->		
+
+					<!-- Logo desktop -->
 					<a href="#" class="logo">
 						<img src="images/icons/logo-01.png" alt="IMG-LOGO">
 					</a>
@@ -84,7 +105,7 @@ include("model/query.php");
 						<ul class="main-menu">
 							<li class="active-menu">
 								<a href="index.php">Home</a>
-								
+
 							</li>
 
 							<li>
@@ -106,44 +127,44 @@ include("model/query.php");
 							<li>
 								<a href="contact.html">Contact</a>
 							</li>
-							
-							
+
+
 							<?php
-							if(isset($_SESSION['userName'])){
-								?>
+							if (isset($_SESSION['userName'])) {
+							?>
 								<li>
-								<a href="logout.php">LogOut</a>
-							</li>
+									<a href="logout.php">LogOut</a>
+								</li>
 								<?php
-								if($_SESSION['userRole']=="user"){
-									?>
-									
+								if ($_SESSION['userRole'] == "user") {
+								?>
+
 									<li>
-								<a href="profile.php">Profile</a>
-							</li>
-									<?php
-								}else{
-									?>
-									
+										<a href="profile.php">Profile</a>
+									</li>
+								<?php
+								} else {
+								?>
+
 									<li>
-								<a href="dashmin/index.php">panel</a>
-							</li>
-									<?php
+										<a href="dashmin/index.php">panel</a>
+									</li>
+								<?php
 								}
-							}else{
+							} else {
 								?>
 								<li>
-								<a href="register.php">Register</a>
-							</li>
+									<a href="register.php">Register</a>
+								</li>
 								<li>
-								<a href="login.php">Login</a>
-							</li>
-								<?php
+									<a href="login.php">Login</a>
+								</li>
+							<?php
 							}
 							?>
-							
+
 						</ul>
-					</div>	
+					</div>
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
@@ -152,16 +173,16 @@ include("model/query.php");
 						</div>
 
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="<?php
-						$quantity = 0;
-						if(isset($_SESSION['cart'])){
-							foreach($_SESSION['cart'] as $key => $values){
-$quantity+=$values['proQuantity'];
-							}
-							echo $quantity;
-						}else{
-							echo $quantity;
-						}
-						?>">
+																																	$quantity = 0;
+																																	if (isset($_SESSION['cart'])) {
+																																		foreach ($_SESSION['cart'] as $key => $values) {
+																																			$quantity += $values['proQuantity'];
+																																		}
+																																		echo $quantity;
+																																	} else {
+																																		echo $quantity;
+																																	}
+																																	?>">
 							<i class="zmdi zmdi-shopping-cart"></i>
 						</div>
 
@@ -170,12 +191,12 @@ $quantity+=$values['proQuantity'];
 						</a>
 					</div>
 				</nav>
-			</div>	
+			</div>
 		</div>
 
 		<!-- Header Mobile -->
 		<div class="wrap-header-mobile">
-			<!-- Logo moblie -->		
+			<!-- Logo moblie -->
 			<div class="logo-mobile">
 				<a href="index.html"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
 			</div>
@@ -300,42 +321,42 @@ $quantity+=$values['proQuantity'];
 					<i class="zmdi zmdi-close"></i>
 				</div>
 			</div>
-			
+
 			<div class="header-cart-content flex-w js-pscroll">
 				<ul class="header-cart-wrapitem w-full">
-				<?php
-				$subTotal = 0;
-				if(isset($_SESSION['cart'])){
-					foreach($_SESSION['cart'] as $key => $values){
-						$subTotal+=$values['proQuantity']*$values['proPrice'];
-						?>
-						<li class="header-cart-item flex-w flex-t m-b-12">
-						<div class="header-cart-item-img">
-							<img src="<?php echo $proImageAddress.$values['proImage']?>" alt="IMG">
-						</div>
+					<?php
+					$subTotal = 0;
+					if (isset($_SESSION['cart'])) {
+						foreach ($_SESSION['cart'] as $key => $values) {
+							$subTotal += $values['proQuantity'] * $values['proPrice'];
+					?>
+							<li class="header-cart-item flex-w flex-t m-b-12">
+								<div class="header-cart-item-img">
+									<img src="<?php echo $proImageAddress . $values['proImage'] ?>" alt="IMG">
+								</div>
 
-						<div class="header-cart-item-txt p-t-8">
-							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-								<?php echo $values['proName']?>
-							</a>
+								<div class="header-cart-item-txt p-t-8">
+									<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+										<?php echo $values['proName'] ?>
+									</a>
 
-							<span class="header-cart-item-info">
-							<?php echo $values['proQuantity']?> x PKR <?php echo $values['proPrice']?>
-							</span>
-						</div>
-					</li>
-						<?php
+									<span class="header-cart-item-info">
+										<?php echo $values['proQuantity'] ?> x PKR <?php echo $values['proPrice'] ?>
+									</span>
+								</div>
+							</li>
+					<?php
+						}
 					}
-				}
-				?>
-					
+					?>
 
-					
+
+
 				</ul>
-				
+
 				<div class="w-full">
 					<div class="header-cart-total w-full p-tb-40">
-						Total: PKR <?php echo $subTotal?>
+						Total: PKR <?php echo $subTotal ?>
 					</div>
 
 					<div class="header-cart-buttons flex-w w-full">
@@ -351,4 +372,3 @@ $quantity+=$values['proQuantity'];
 			</div>
 		</div>
 	</div>
-

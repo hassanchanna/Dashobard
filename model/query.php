@@ -1,4 +1,6 @@
 <?php
+include("connection.php");
+
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
@@ -10,7 +12,6 @@ require 'vendor/autoload.php';
 
 //Create an instance; passing `true` enables exceptions
 $mail = new PHPMailer(true);
-include("dashmin/php/connection.php");
 
 $catImageAddress = 'dashmin/img/categories/';
 $proImageAddress = 'dashmin/img/products/';
@@ -191,6 +192,57 @@ $orderQuery->execute([$values['proId'],$values["proName"],$values['proPrice'],$v
         echo 'Message has been sent';
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+}
+
+// searchProduct
+if(isset($_POST['searchProduct'])){
+
+
+    $searchProduct = $_POST['searchProduct'];
+    $query= $pdo ->prepare("select * from products where productName like '%$searchProduct%'");
+    $query->execute();
+    $row = $query->fetchAll(PDO::FETCH_ASSOC);
+    foreach($row as $values){
+        ?>
+        <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <?php echo $values['productCatId']?>">
+    <!-- Block2 -->
+    <div class="block2">
+        <div class="block2-pic hov-img0">
+            <img src="<?php
+            echo $proImageAddress.$values['productImage']
+            ?>" alt="IMG-PRODUCT">
+
+        
+        </div>
+
+        <div class="block2-txt flex-w flex-t p-t-14">
+            <div class="block2-txt-child1 flex-col-l ">
+                <a href="product-detail.php?proId=<?php echo $values['productId']?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                    <?php
+                    echo $values['productName']
+                    ?>
+                </a>
+
+                <span class="stext-105 cl3">
+                    $
+                <?php
+                    echo $values['productPrice']
+                    ?>
+                </span>
+            </div>
+
+            <div class="block2-txt-child2 flex-r p-t-3">
+                <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+                    <img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
+                    <img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+        
+        <?php
     }
 }
 ?>

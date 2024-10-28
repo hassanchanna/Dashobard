@@ -1,40 +1,40 @@
 <?php
 include("components/header.php");
 ?>
-	
-	<!-- Product -->
-	<div class="bg0 m-t-100 p-b-140">
-		<div class="container">
-			<?php
-			if(!isset($_GET['catId'])){
-				?>
-				<div class="flex-w flex-sb-m p-b-52">
+
+<!-- Product -->
+<div class="bg0 m-t-100 p-b-140">
+	<div class="container">
+		<?php
+		if (!isset($_GET['catId'])) {
+		?>
+			<div class="flex-w flex-sb-m p-b-52">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
 					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
 						All Products
 					</button>
-<?php
-$catQuery = $pdo ->query("select * from categories");
-$rowCat = $catQuery ->fetchAll(PDO::FETCH_ASSOC);
-foreach($rowCat as $catVal){
-	?>
-	<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".
+					<?php
+					$catQuery = $pdo->query("select * from categories");
+					$rowCat = $catQuery->fetchAll(PDO::FETCH_ASSOC);
+					foreach ($rowCat as $catVal) {
+					?>
+						<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".
 	d']?>">
-						<?php echo $catVal['catName']?>
-					</button>
+							<?php echo $catVal['catName'] ?>
+						</button>
 
-	<?php
-}
-?>
-					
-					
+					<?php
+					}
+					?>
+
+
 				</div>
 
 				<div class="flex-w flex-c-m m-tb-10">
 					<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
 						<i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
 						<i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-						 Filter
+						Filter
 					</div>
 
 					<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
@@ -43,16 +43,19 @@ foreach($rowCat as $catVal){
 						Search
 					</div>
 				</div>
-				
+
 				<!-- Search product -->
 				<div class="dis-none panel-search w-full p-t-10 p-b-15">
+					<form action="" method="dialog">
+
 					<div class="bor8 dis-flex p-l-15">
 						<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
 							<i class="zmdi zmdi-search"></i>
 						</button>
 
-						<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="Search">
-					</div>	
+						<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="searchProduct" id="search" placeholder="Search">
+					</div>
+					</form>
 				</div>
 
 				<!-- Filter -->
@@ -245,126 +248,93 @@ foreach($rowCat as $catVal){
 				</div>
 			</div>
 
-				<?php
-			}
-			?>
-			
-			<div class="row isotope-grid">
-				<?php
-				if(isset($_GET['catId'])){
+		<?php
+		}
+		?>
+
+		<div class="row " id="productData">
+			<?php
+			if (isset($_GET['catId'])) {
 
 				$catId = $_GET['catId'];
-				$query = $pdo ->prepare("select * from products where productCatId = :pid");
-				$query->bindParam("pid",$catId);
+				$query = $pdo->prepare("select * from products where productCatId = :pid");
+				$query->bindParam("pid", $catId);
 				$query->execute();
 				$pro = $query->fetchAll(PDO::FETCH_ASSOC);
-				foreach($pro as $value){
-					?>
+				foreach ($pro as $value) {
+			?>
 
 
-<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-					<!-- Block2 -->
-					<div class="block2">
-						<div class="block2-pic hov-img0">
-							<img src="<?php
-							echo $proImageAddress.$value['productImage']
-							?>" alt="IMG-PRODUCT">
+					<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+						<!-- Block2 -->
+						<div class="block2">
+							<div class="block2-pic hov-img0">
+								<img src="<?php
+											echo $proImageAddress . $value['productImage']
+											?>" alt="IMG-PRODUCT">
 
-						
-						</div>
 
-						<div class="block2-txt flex-w flex-t p-t-14">
-							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail.php?proId=<?php echo $value['productId']?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									<?php
-									echo $value['productName']
-									?>
-								</a>
-
-								<span class="stext-105 cl3">
-									$
-								<?php
-									echo $value['productPrice']
-									?>
-								</span>
 							</div>
 
-							<div class="block2-txt-child2 flex-r p-t-3">
-								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-					<?php
-				}
-				}else{
-					
-					
-					
-					$query = $pdo ->query("select * from products");
-				$pro = $query->fetchAll(PDO::FETCH_ASSOC);
-				foreach($pro as $value){
-					?>
+							<div class="block2-txt flex-w flex-t p-t-14">
+								<div class="block2-txt-child1 flex-col-l ">
+									<a href="product-detail.php?proId=<?php echo $value['productId'] ?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+										<?php
+										echo $value['productName']
+										?>
+									</a>
 
+									<span class="stext-105 cl3">
+										$
+										<?php
+										echo $value['productPrice']
+										?>
+									</span>
+								</div>
 
-<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <?php echo $value['productCatId']?>">
-					<!-- Block2 -->
-					<div class="block2">
-						<div class="block2-pic hov-img0">
-							<img src="<?php
-							echo $proImageAddress.$value['productImage']
-							?>" alt="IMG-PRODUCT">
-
-						
-						</div>
-
-						<div class="block2-txt flex-w flex-t p-t-14">
-							<div class="block2-txt-child1 flex-col-l ">
-								<a href="product-detail.php?proId=<?php echo $value['productId']?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-									<?php
-									echo $value['productName']
-									?>
-								</a>
-
-								<span class="stext-105 cl3">
-									$
-								<?php
-									echo $value['productPrice']
-									?>
-								</span>
-							</div>
-
-							<div class="block2-txt-child2 flex-r p-t-3">
-								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
-								</a>
+								<div class="block2-txt-child2 flex-r p-t-3">
+									<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+										<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png" alt="ICON">
+										<img class="icon-heart2 dis-block trans-04 ab-t-l" src="images/icons/icon-heart-02.png" alt="ICON">
+									</a>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-					<?php
+				<?php
 				}
-				}
+			} else {
+
 				?>
-				
+				<script>
+					$(document).ready(function() {
+						$.ajax({
+							url: "ajax.php",
+							type: "get",
+							success: function() {
+								$("#productData").load("ajax.php")
+							}
+						})
+					})
+				</script>
+			<?php
 
-			</div>
+			}
+			?>
 
-			<!-- Load more -->
-			<div class="flex-c-m flex-w w-full p-t-45">
-				<a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
-					Load More
-				</a>
-			</div>
+
+		</div>
+
+		<!-- Load more -->
+		<div class="flex-c-m flex-w w-full p-t-45">
+			<a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+				Load More
+			</a>
 		</div>
 	</div>
-		
+</div>
 
-	<?php
+
+<?php
 include("components/footer.php");
 ?>
-	
